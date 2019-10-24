@@ -109,3 +109,24 @@ exports.deletar = (req, res) => {
     }
   })
 }
+
+
+exports.listarPorDt = (req, res) => {
+
+  const data = req.params.data
+  const query = "select * from tarefas where data like ? "
+  console.log("Data : " + data)
+  conexao.query(query, data + '%', (err, rows) => {
+    if (err){
+      res.status(500)
+      res.json({"message": "Internal Server Error"})
+      console.log(err)
+    } else if (rows.length > 0){
+      res.status(200)
+      res.json(rows)
+    } else {
+      res.status(404)
+      res.json({"message": "Nenhuma tarefa encontrada"})
+    }
+  })
+}
