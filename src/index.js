@@ -22,10 +22,12 @@ const swaggerDocument = YAML.load('./docs/swagger.yml')
 app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 // Rotas
-const tarefaRoute = require('./routes/tarefaRoute')
-app.use('/api/v1/tarefas', tarefaRoute)
+// const tarefaRoute = require('./routes/tarefaRoute')
+// app.use('/api/v1/tarefas', tarefaRoute)
 const apiRoute = require('./routes/apiRoute')
 app.use('/api/v1', apiRoute)
+const categoriaRoute = require('./routes/categoriaRoute')
+app.use('/api/v1/categorias', categoriaRoute)
 
 // Porta da aplicação
 const port = process.env.PORT
