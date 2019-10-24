@@ -8,5 +8,6 @@ route.get('/:id', apiController.verifica, tarefaController.listarPorId)
 route.post('/', apiController.verifica, tarefaController.inserir)
 route.put('/:id', apiController.verifica, tarefaController.alterar)
 route.delete('/:id', apiController.verifica, tarefaController.deletar)
+route.get('/entreDatas', apiController.verifica,tarefaController.listarPorDatas)
 
 module.exports = route

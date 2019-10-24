@@ -109,3 +109,26 @@ exports.deletar = (req, res) => {
     }
   })
 }
+exports.listarPorDatas = (req, res) => {
+
+  const datas = []
+  datas.push (req.body.data_inicial)
+  datas.push (req.body.data_final)
+  const query = "select * from tarefas where data between ? and ?"
+
+
+  conexao.query(query,datas, (err, rows) => {
+    if (err){
+      res.status(500)
+      res.json({"message": "Internal Server Error",
+      "erro":err})
+      console.log(err)
+    } else if (rows.length > 0){
+      res.status(200)
+      res.json(rows)
+    } else {
+      res.status(404)
+      res.json({"message": "Nenhuma tarefa encontrada"})
+    }
+  })
+}

@@ -27,6 +27,10 @@ app.use('/api/v1/tarefas', tarefaRoute)
 const apiRoute = require('./routes/apiRoute')
 app.use('/api/v1', apiRoute)
 
+//Criando rota para categoriaRoute
+const categoriaRoute = require('./routes/categoriaRoute')
+app.use('/api/v1/categorias', categoriaRoute)
+
 // Porta da aplicação
 const port = process.env.PORT
 
