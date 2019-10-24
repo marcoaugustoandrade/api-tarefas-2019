@@ -1,4 +1,4 @@
-const { check } = require('express-validator')
+const {check} = require('express-validator')
 
 exports.listarPorId = [
     check('id')
@@ -30,4 +30,8 @@ exports.delete = [
     check('id')
         .exists().withMessage('O id Não pode estar em branco')
         .isInt().withMessage('O id deve ser um numero inteiro')
+]
+
+exports.listarPorDescricao = [
+    check('descricao').exists().withMessage('A descrição não pode estar em branco!').isLength({min:3}).withMessage('Por favor, informe mais de 2 caracteres!')
 ]
