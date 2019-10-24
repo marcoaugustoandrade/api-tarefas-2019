@@ -6,7 +6,7 @@ const YAML = require('yamljs')
 const swaggerUI = require('swagger-ui-express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-
+const paginate = require('express-paginate');
 // Habilitando o CORS
 app.use(cors())
 
@@ -14,6 +14,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.use(paginate.middleware(10, 50));
 // Logs
 app.use(morgan('combined'))
 

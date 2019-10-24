@@ -1,23 +1,51 @@
 const conexao = require('../config/conexao')
 const {validationResult} = require('express-validator')
+const paginate = require('express-paginate');
 
 exports.listar = (req, res) => {
   
-  const query = "select * from tarefas"
 
-  conexao.query(query, (err, rows) => {
-    if (err){
-      res.status(500)
-      res.json({"message": "Internal Server Error"})
-      console.log(err)
-    } else if (rows.length > 0){
-      res.status(200)
-      res.json(rows)
-    } else {
-      res.status(404)
-      res.json({"message": "Nenhuma tarefa encontrada"})
+  console.log(req.query)
+  if (parseInt(req.query.size) > 0)
+  {
+    const page = req.query.page
+    const size = req.query.size
+
+    const query = "select * from tarefas LIMIT ?,?"
+
+    conexao.query(query,[parseInt(page),parseInt(size)], (err, rows) => {
+        if (err){
+          res.status(500)
+          res.json({"message": "Internal Server Error"})
+          console.log(err)
+        } else if (rows.length > 0){
+          res.status(200)
+          res.json( rows)        
+        } else {
+          res.status(404)
+          res.json({"message": "Nenhuma tarefa encontrada"})
+        }
+      })
     }
-  })
+    else
+    {
+      const query = "select * from tarefas"
+
+      conexao.query(query, (err, rows) => {
+        if (err){
+          res.status(500)
+          res.json({"message": "Internal Server Error"})
+          console.log(err)
+        } else if (rows.length > 0){
+          res.status(200)
+          res.json( rows)        
+        } else {
+          res.status(404)
+          res.json({"message": "Nenhuma tarefa encontrada"})
+        }
+      })
+    }
+ 
 }
 
 exports.listarPorId = (req, res) => {
@@ -114,7 +142,7 @@ exports.deletar = (req, res) => {
 
 exports.listarPorDt = (req, res) => {
 
-  const data = req.params.data
+  const data = req.query.data
   const query = "select * from tarefas where data like ? "
 
   const errors = validationResult(req)
@@ -138,6 +166,5 @@ exports.listarPorDt = (req, res) => {
         res.json({"message": "Nenhuma tarefa encontrada"})
       }
     })
-  }  
-  
+  }    
 }
