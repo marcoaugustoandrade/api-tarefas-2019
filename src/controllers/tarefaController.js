@@ -116,6 +116,7 @@ exports.listarPorDescricao = (req, res) => {
     if(!erros.isEmpty()){
         return res.status(422).json({"erros": erros.array()})
     } else {
+  const perPage = 10
   let descricao = req.query.f
   console.log(req.query)
   let page = parseInt(req.query.page)
@@ -126,9 +127,9 @@ exports.listarPorDescricao = (req, res) => {
     page=0
   }
   descricao = '%'+descricao+'%'
-  const query = "select * from tarefas where descricao like ? limit ?,1"
+  const query = "select * from tarefas where descricao like ? limit ?,?"
 
-  conexao.query(query, [descricao,page], (err, rows)=>{
+  conexao.query(query, [descricao,page,perPage], (err, rows)=>{
     if (err){
       res.status(500)
       res.json({"message": "Internal Server "})
