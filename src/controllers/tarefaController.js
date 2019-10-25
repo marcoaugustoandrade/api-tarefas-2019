@@ -24,7 +24,6 @@ exports.listarPorId = (req, res) => {
 
   const id = req.params.id
   const query = "select * from tarefas where id = ?"
-
   conexao.query(query, [id], (err, rows) => {
     if (err){
       res.status(500)
@@ -117,11 +116,19 @@ exports.listarPorDescricao = (req, res) => {
     if(!erros.isEmpty()){
         return res.status(422).json({"erros": erros.array()})
     } else {
-  let descricao = req.params.descricao
-  descricao = '%'+descricao+'%'
-  const query = "select * from tarefas where descricao like ?"
+  let descricao = req.query.f
+  console.log(req.query)
+  let page = parseInt(req.query.page)
+  console.log(descricao)
+  console.log(page)
 
-  conexao.query(query, [descricao], (err, rows)=>{
+  if(isNaN(page)){
+    page=0
+  }
+  descricao = '%'+descricao+'%'
+  const query = "select * from tarefas where descricao like ? limit ?,1"
+
+  conexao.query(query, [descricao,page], (err, rows)=>{
     if (err){
       res.status(500)
       res.json({"message": "Internal Server "})

@@ -27,6 +27,7 @@ exports.login = (req, res) => {
         } else {
           res.status(403)
           res.json({"auth": false, "message": "E-mail ou senha incorretos"})
+          console.log(err)
         }
       })
 
