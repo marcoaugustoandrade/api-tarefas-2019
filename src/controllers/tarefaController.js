@@ -3,48 +3,22 @@ const {validationResult} = require('express-validator')
 const paginate = require('express-paginate');
 
 exports.listar = (req, res) => {
-  
-
-  console.log(req.query)
-  if (parseInt(req.query.size) > 0)
-  {
-    const page = req.query.page
-    const size = req.query.size
-
-    const query = "select * from tarefas LIMIT ?,?"
-
-    conexao.query(query,[parseInt(page),parseInt(size)], (err, rows) => {
-        if (err){
-          res.status(500)
-          res.json({"message": "Internal Server Error"})
-          console.log(err)
-        } else if (rows.length > 0){
-          res.status(200)
-          res.json( rows)        
-        } else {
-          res.status(404)
-          res.json({"message": "Nenhuma tarefa encontrada"})
-        }
-      })
+    
+  const query = "select * from tarefas"
+    
+  conexao.query(query, (err, rows) => {
+    if (err){
+      res.status(500)
+      res.json({"message": "Internal Server Error"})
+      console.log(err)
+    } else if (rows.length > 0){
+      res.status(200)
+      res.json( rows)        
+    } else {
+      res.status(404)
+      res.json({"message": "Nenhuma tarefa encontrada"})
     }
-    else
-    {
-      const query = "select * from tarefas"
-
-      conexao.query(query, (err, rows) => {
-        if (err){
-          res.status(500)
-          res.json({"message": "Internal Server Error"})
-          console.log(err)
-        } else if (rows.length > 0){
-          res.status(200)
-          res.json( rows)        
-        } else {
-          res.status(404)
-          res.json({"message": "Nenhuma tarefa encontrada"})
-        }
-      })
-    }
+  })
  
 }
 
@@ -139,7 +113,6 @@ exports.deletar = (req, res) => {
   })
 }
 
-
 exports.listarPorDt = (req, res) => {
 
   const data = req.query.data
@@ -147,24 +120,25 @@ exports.listarPorDt = (req, res) => {
 
   const errors = validationResult(req)
 
-  console.log(data)
+  console.log(req.query)
+
   if(!errors.isEmpty())
   {
     return res.status(422).json({ errors: errors.array() });
   }
   else{
-    conexao.query(query, data + '%', (err, rows) => {
-      if (err){
-        res.status(500)
-        res.json({"message": "Internal Server Error"})
-        console.log(err)
-      } else if (rows.length > 0){
-        res.status(200)
-        res.json(rows)
-      } else {
-        res.status(404)
-        res.json({"message": "Nenhuma tarefa encontrada"})
-      }
-    })
+      conexao.query(query, data + '%', (err, rows) => {
+        if (err){
+          res.status(500)
+          res.json({"message": "Internal Server Error"})
+          console.log(err)
+        } else if (rows.length > 0){
+          res.status(200)
+          res.json(rows)
+        } else {
+          res.status(404)
+          res.json({"message": "Nenhuma tarefa encontrada"})
+        }
+      })
   }    
 }
