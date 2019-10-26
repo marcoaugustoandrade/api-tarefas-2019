@@ -9,8 +9,9 @@ exports.deletar = [
 
 exports.listarPorDesc = [
   check('desc')
-  .isLength({min:3,}).withMessage("A descrição deve ter no minimo 3 caracteres")
+  .isLength({min:3}).withMessage("A descrição deve ter no minimo 3 caracteres")
   .exists().withMessage('O descrição não pode estar em branco')
   .isString().withMessage('A descrição deve ser um texto')
   
 ]
+

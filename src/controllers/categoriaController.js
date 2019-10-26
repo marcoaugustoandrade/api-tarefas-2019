@@ -33,6 +33,12 @@ exports.deletar = (req, res) => {
 }
 
 exports.listarPorDesc = (req, res) => {
+  const erros = validationResult(req)
+
+  if (!erros.isEmpty()) {
+    return res.status(422).json({"erro":erros.array()})
+  }else{
+
 
   const desc = req.params.desc
   const query = "select * from categorias where descricao like '%"+desc+"%'"
@@ -51,6 +57,6 @@ exports.listarPorDesc = (req, res) => {
       res.json({"message": "Nenhuma categoria encontrada"})
     }
   })
-}
+}}
 
 

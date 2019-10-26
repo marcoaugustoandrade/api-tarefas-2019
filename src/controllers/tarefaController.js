@@ -1,5 +1,9 @@
 const conexao = require('../config/conexao')
 
+const {validationResult} = require('express-validator')
+
+
+
 exports.listar = (req, res) => {
   
   const query = "select * from tarefas"
@@ -14,7 +18,7 @@ exports.listar = (req, res) => {
       res.json(rows)
     } else {
       res.status(404)
-      res.json({"message": "Nenhuma tarefa encontrada"})
+      res.json({"message": "Nenhuma tarefa encontrada "})
     }
   })
 }
@@ -34,7 +38,7 @@ exports.listarPorId = (req, res) => {
       res.json(rows)
     } else {
       res.status(404)
-      res.json({"message": "Nenhuma tarefa encontrada"})
+      res.json({"message": "Nenhuma tarefa encontrada 1"})
     }
   })
 }
@@ -84,7 +88,7 @@ exports.alterar = (req, res) => {
       res.json({"message": "Tarefa alterada", "id": req.params.id})
     } else {
       res.status(404)
-      res.json({"message": "Tarefa não encontrada "})
+      res.json({"message": "Tarefa não encontrada"})
     }
   })
 }
@@ -110,13 +114,21 @@ exports.deletar = (req, res) => {
   })
 }
 exports.listarPorDatas = (req, res) => {
+  const erros = validationResult(req) /*Modificado */
 
-  const datas = []
-  datas.push (req.body.data_inicial)
-  datas.push (req.body.data_final)
-  const query = "select * from tarefas where data between ? and ?"
+  if (!erros.isEmpty()) {
+    return res.status(422).json({"erro":erros.array()})
+}else
+{
+   const datas = []
+  datas.push (req.query.data_inicial)
+  datas.push (req.query.data_final)
 
+//  const query = " select * from tarefas where  date_format(data, '%Y-%m-%d') between '"+datas[0]+"' and '"+datas[1]+"'";
 
+const query = " select * from tarefas where data between ? and ?";
+ 
+  
   conexao.query(query,datas, (err, rows) => {
     if (err){
       res.status(500)
@@ -128,7 +140,11 @@ exports.listarPorDatas = (req, res) => {
       res.json(rows)
     } else {
       res.status(404)
-      res.json({"message": "Nenhuma tarefa encontrada"})
+      res.json({"message": "Nenhuma tarefa encontrada teste",
+                "data_inicial":datas[0]})
     }
-  })
+    })
+  }
 }
+ 
+  
