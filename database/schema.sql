@@ -32,7 +32,7 @@ create table tarefas(
   foreign key (categoria_id) references categorias (id)
 );
 insert into tarefas (descricao, data, realizado, categoria_id) values 
-  ('Pagar conta de energia', '2018-10-03 10:0sudo npm install -g nodemon0:00', false, 1),
+  ('Pagar conta de energia', '2018-10-03 10:0', false, 1),
   ('Inciar o trabalho', '2018-10-03 12:00:00', false, 2),
   ('Abastecer o carro', '2018-10-04 00:00:00', true, 1),
   ('Pagar conta de água', '2018-11-12 10:00:00', true, 1),

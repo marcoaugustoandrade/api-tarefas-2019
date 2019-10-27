@@ -2,9 +2,10 @@ const conexao = require('../config/conexao')
 
 exports.listar = (req, res) => {
   
-  const query = "select * from tarefas"
+  const page = req.query.page
+  const query = "select * from tarefas LIMIT ?,?"
 
-  conexao.query(query, (err, rows) => {
+  conexao.query(query, [parseInt(page) * 10, parseInt(page) * 10 + 10], (err, rows) => {
     if (err){
       res.status(500)
       res.json({"message": "Internal Server Error"})
