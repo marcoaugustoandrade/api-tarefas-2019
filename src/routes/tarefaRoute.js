@@ -9,4 +9,5 @@ route.post('/', apiController.verifica, tarefaController.inserir)
 route.put('/:id', apiController.verifica, tarefaController.alterar)
 route.delete('/:id', apiController.verifica, tarefaController.deletar)
 
+
 module.exports = route
