@@ -1,7 +1,7 @@
 {
   "name": "api-tarefas-default",
   "version": "1.0.0",
-  "description": "API para gerenciamento de tarefas",
+  "description": "API Para Gerenciamento de Tarefas",
   "main": "src/index.js",
   "directories": {
     "doc": "docs"
@@ -12,24 +12,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marcoaugustoandrade/api-tarefas-default.git"
+    "url": "git+https://github.com/montanari2019/api-tarefas-default.git"
   },
   "keywords": [
-    "tarefas"
+    "tarefas01"
   ],
-  "author": "Marco Antonio Andrade",
+  "author": "Ikaro Montanari",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/marcoaugustoandrade/api-tarefas-default/issues"
+    "url": "https://github.com/montanari2019/api-tarefas-default/issues"
   },
-  "homepage": "https://github.com/marcoaugustoandrade/api-tarefas-default#readme",
+  "homepage": "https://github.com/montanari2019/api-tarefas-default#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
+<<<<<<< HEAD
     "express-paginate": "^1.0.0",
+=======
+>>>>>>> origin/ikaro
     "express-validator": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
