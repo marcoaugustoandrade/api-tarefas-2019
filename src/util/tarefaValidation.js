@@ -27,7 +27,7 @@ exports.alterar = [
     check('data')
         .exists().trim().withMessage('O campo data da categoria não pode ser vazio')
         .isLength({ min: 8 }).withMessage('A data deve ser conter no minimo 8 caracteres')
-        .isISO8601().withMessage('A data deve estar no formato valido')
+        .isISO8601().withMessage('A data deve estar no formato valido'),
     check('categoria_id')
         .exists().withMessage('O id da categoria nao pode esta em branco')
         .isInt().withMessage('O id da categoria deve ser um nuemro inteiro')

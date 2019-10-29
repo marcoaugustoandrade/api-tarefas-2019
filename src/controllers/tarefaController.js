@@ -7,7 +7,7 @@ exports.listar = (req, res) => {
   const page = req.query.page
   const query = "select * from tarefas LIMIT ?,?"
 
-  if (parseInt(page) < 1) {
+  if (parseInt(page) < 1 || isNaN(parseInt(page) && isFinite(page))) {
     res.status(400)
     res.json({ "message": "Página inválida!" })
   } else {
