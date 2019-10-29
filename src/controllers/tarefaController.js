@@ -1,4 +1,5 @@
 const conexao = require('../config/conexao')
+const { validationResult } = require('express-validator')
 
 exports.listar = (req, res) => {
 
@@ -47,6 +48,10 @@ exports.listarPorId = (req, res) => {
 
 
 exports.inserir = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() })
+  } else {
 
   const tarefa = []
   tarefa.push(req.body.descricao)
@@ -67,32 +72,37 @@ exports.inserir = (req, res) => {
       res.json({ "message": "Tarefa criada com sucesso", "id": rows.insertId })
     }
   })
+  }
 }
 
 exports.alterar = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() })
+  } else {
+    const tarefa = []
+    tarefa.push(req.body.descricao)
+    tarefa.push(req.body.data)
+    tarefa.push(req.body.realizado)
+    tarefa.push(req.body.categoria_id)
+    tarefa.push(req.params.id)
 
-  const tarefa = []
-  tarefa.push(req.body.descricao)
-  tarefa.push(req.body.data)
-  tarefa.push(req.body.realizado)
-  tarefa.push(req.body.categoria_id)
-  tarefa.push(req.params.id)
+    const query = "update tarefas set descricao = ?, data = ?, realizado = ?, categoria_id = ? where id = ?"
 
-  const query = "update tarefas set descricao = ?, data = ?, realizado = ?, categoria_id = ? where id = ?"
-
-  conexao.query(query, tarefa, (err, rows) => {
-    if (err) {
-      res.status(500)
-      res.json({ "message": "Internal Server Error" })
-      console.log(err)
-    } else if (rows.affectedRows > 0) {
-      res.status(202)
-      res.json({ "message": "Tarefa alterada", "id": req.params.id })
-    } else {
-      res.status(404)
-      res.json({ "message": "Tarefa não encontrada " })
-    }
-  })
+    conexao.query(query, tarefa, (err, rows) => {
+      if (err) {
+        res.status(500)
+        res.json({ "message": "Internal Server Error" })
+        console.log(err)
+      } else if (rows.affectedRows > 0) {
+        res.status(202)
+        res.json({ "message": "Tarefa alterada", "id": req.params.id })
+      } else {
+        res.status(404)
+        res.json({ "message": "Tarefa não encontrada " })
+      }
+    })
+  }
 }
 
 exports.deletar = (req, res) => {
