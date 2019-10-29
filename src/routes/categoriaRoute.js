@@ -6,5 +6,10 @@ const categoriaValidation = require('../util/categoriaValidation')
 
 
 route.get('/:id', apiController.verifica, categoriaValidation.listarPorId, categoriaController.listarPorId)
+route.post('/',apiController.verifica,categoriaValidation.inserir,categoriaController.inserir)
 
 module.exports = route
+
+
+
+
