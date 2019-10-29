@@ -1,10 +1,15 @@
-const express = require ('express')
-const router = express.Router()
+const express = require('express')
+const route = express.Router()
 const categoriaController = require('../controllers/categoriaController')
 const apiController = require('../controllers/apiController')
-const categoriaValidation = require ('../util/categoriaValidation')
-
-router.post('/',apiController.verifica,categoriaValidation.inserir,categoriaController.inserir)
+const categoriaValidation = require('../util/categoriaValidation')
 
 
-module.exports = router
+route.get('/:id', apiController.verifica, categoriaValidation.listarPorId, categoriaController.listarPorId)
+route.post('/',apiController.verifica,categoriaValidation.inserir,categoriaController.inserir)
+
+module.exports = route
+
+
+
+

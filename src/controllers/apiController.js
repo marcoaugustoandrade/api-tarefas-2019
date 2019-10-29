@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 require('dotenv').config()
 
 exports.login = (req, res) => {
+
   
   const email = req.body.email
   const senha = req.body.senha
