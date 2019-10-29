@@ -7,7 +7,7 @@ const apiController = require('../controllers/apiController')
 route.get('/', apiController.verifica, tarefaController.listar)
 route.get('/:id', apiController.verifica, tarefaController.listarPorId)
 route.post('/', apiController.verifica, tarefaValidation.inserir, tarefaController.inserir)
-route.put('/:id', apiController.verifica, categoriaValidation.inserir, tarefaController.alterar)
+route.put('/:id', apiController.verifica, tarefaValidation.inserir, tarefaController.alterar)
 route.delete('/:id', apiController.verifica, tarefaController.deletar)
 
 module.exports = route
