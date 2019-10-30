@@ -98,9 +98,7 @@ exports.inserir = (req, res) => {
         tarefa.push(req.body.realizado)
         tarefa.push(req.body.categoria_id)
 
-
         const query = "insert into tarefas (descricao, data, realizado, categoria_id) values (?,?,?,?)"
-
 
         conexao.query(query, tarefa, (err, rows) =>{
 
@@ -115,6 +113,7 @@ exports.inserir = (req, res) => {
         })
     }
 
+  }
 }
 
 
@@ -220,7 +219,6 @@ exports.listarPorDt = (req, res) => {
 
 
 exports.listarPorDescricao = (req, res) => {
-
   const erros = validationResult(req)
     if(!erros.isEmpty()){
         return res.status(422).json({"erros": erros.array()})
@@ -252,37 +250,37 @@ exports.listarPorDescricao = (req, res) => {
     }
   })
 }
+}
 
 exports.listarPorDatas = (req, res) => {
   const erros = validationResult(req) /*Modificado */
 
   if (!erros.isEmpty()) {
     return res.status(422).json({"erro":erros.array()})
-}else
-{
-   const datas = []
-  datas.push (req.query.data_inicial)
-  datas.push (req.query.data_final)
+  }else{
+    const datas = []
+    datas.push (req.query.data_inicial)
+    datas.push (req.query.data_final)
 
-//  const query = " select * from tarefas where  date_format(data, '%Y-%m-%d') between '"+datas[0]+"' and '"+datas[1]+"'";
+    //  const query = " select * from tarefas where  date_format(data, '%Y-%m-%d') between '"+datas[0]+"' and '"+datas[1]+"'";
 
-const query = " select * from tarefas where data between ? and ?";
- 
-  
-  conexao.query(query,datas, (err, rows) => {
-    if (err){
-      res.status(500)
-      res.json({"message": "Internal Server Error",
-      "erro":err})
-      console.log(err)
-    } else if (rows.length > 0){
-      res.status(200)
-      res.json(rows)
-    } else {
-      res.status(404)
-      res.json({"message": "Nenhuma tarefa encontrada teste",
-                "data_inicial":datas[0]})
-    }
+    const query = " select * from tarefas where data between ? and ?";
+
+    conexao.query(query,datas, (err, rows) => {
+        if (err){
+          res.status(500)
+          res.json({"message": "Internal Server Error",
+          "erro":err})
+          console.log(err)
+        } else if (rows.length > 0){
+          res.status(200)
+          res.json(rows)
+        } else {
+          res.status(404)
+          res.json({"message": "Nenhuma tarefa encontrada teste",
+          "data_inicial":datas[0]})
+        }
     })
   }
 }
+

@@ -39,6 +39,6 @@ app.use('/api/v1/categorias', categoriaRoute)
 const port = process.env.PORT
 
 app.listen(port, () => {
-  console.log(`Servidor Rodando na Porta  ${port} seu vagabundo`);
+  console.log(`Servidor Rodando na Porta ${port}`);
   
 })

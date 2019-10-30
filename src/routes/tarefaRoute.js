@@ -3,7 +3,7 @@ const route = express.Router()
 const tarefaController = require('../controllers/tarefaController')
 const tarefaValidation = require('../util/tarefaValidation')
 const apiController = require('../controllers/apiController')
-const tarefaValidation = require('../util/tarefaValidation')
+
 
 route.get('/?',           apiController.verificar, tarefaValidation.listarPorDescricao, tarefaController.listarPorDescricao)
 route.get('/pagination',  apiController.verificar, tarefaController.listarperpage)
