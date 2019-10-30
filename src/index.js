@@ -7,37 +7,38 @@ const swaggerUI = require('swagger-ui-express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-// Habilitando o CORS
+//HABILITANDO O CORS
 app.use(cors())
 
-// Transformando o corpo da requisição no formato JSON
+
+
+// TRANSFOMANDO O CORPO DA REQUISIÇÃO NO FORMATO JSON
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true}))
+
 
 // Logs
+// LOGS
 app.use(morgan('combined'))
 
-// Documentação da API
+
+//DODUMENTAÇÃO DA API
 const swaggerDocument = YAML.load('./docs/swagger.yml')
 app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
-// Rotas
+
+// ROTAS URN
 const tarefaRoute = require('./routes/tarefaRoute')
 const categoriaRoute = require('./routes/categoriaRoute')
 const apiRoute = require('./routes/apiRoute')
 
 app.use('/api/v1/tarefas', tarefaRoute)
-app.use('/api/v1/categorias',categoriaRoute)
 app.use('/api/v1', apiRoute)
-
-//Criando rota para categoriaRoute
-const categoriaRoute = require('./routes/categoriaRoute')
 app.use('/api/v1/categorias', categoriaRoute)
 
-// Porta da aplicação
 const port = process.env.PORT
 
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`)
+  console.log(`Servidor Rodando na Porta  ${port} seu vagabundo`);
+  
 })
-

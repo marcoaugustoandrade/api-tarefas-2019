@@ -30,31 +30,29 @@ exports.login = (req, res) => {
           res.json({"auth": false, "message": "E-mail ou senha incorretos"})
           console.log(err)
         }
-      })
 
-    } else {
-      res.status(403)
-      res.json({"auth": false, "message": "E-mail ou senha incorretos"})
-    }
-  })
+    })
+    
+
 }
 
-exports.verifica = (req, res, next) => {
+exports.verificar = (req, res, next) =>{
 
-  const token = req.headers['access-token']
+    const token = req.headers['access-token']
 
-  if (!token){
-    res.status(401)
-    res.send({"auth": false, "message": "Token em branco"})
-  } else {
-    jwt.verify(token, process.env.SECRET, (err, decode) => {
-      if (err){
-        res.status(403)
-        res.send({"auth": false, "message": "Falha de autenticação"})
-      } else {
-        next()
-      }
-    })
-  }
+    if(!token){
+        res.status(401)
+        res.send({"auth": false, "message": "Token em Branco"})
+    }else{
+        jwt.verify(token, process.env.SECRET, (err, decode) => {
+            if(err){
+                res.status(403)
+                res.send({"auth": false, "message": "Falha de Autenticação"})
+            }else{
+                next()
+            }
+        })
+    }
+
 }
 
