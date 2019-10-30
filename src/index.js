@@ -30,13 +30,12 @@ app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 // ROTAS URN
 const tarefaRoute = require('./routes/tarefaRoute')
 const categoriaRoute = require('./routes/categoriaRoute')
-
+const apiRoute = require('./routes/apiRoute')
 
 app.use('/api/v1/tarefas', tarefaRoute)
 app.use('/api/v1/tarefas/categoria', categoriaRoute)
-
-const apiRoute = require('./routes/apiRoute')
 app.use('/api/v1', apiRoute)
+app.use('/api/v1/categorias', categoriaRoute)
 
 const port = process.env.PORT
 

@@ -6,6 +6,6 @@ const categoriaValidation = require('../util/categoriaValidation')
 
 
 route.get('/:id', apiController.verificar, categoriaValidation.listarPorCategoriaId, categoriaController.listarPorCategoriaId)
-
+route.put('/:id', apiController.verificar, categoriaValidation.alterar, categoriaController.alterar)
 
 module.exports = route
