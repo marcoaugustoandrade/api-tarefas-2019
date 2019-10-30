@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 require('dotenv').config()
 
 exports.login = (req, res) => {
+
   
   const email = req.body.email
   const senha = req.body.senha
@@ -27,6 +28,7 @@ exports.login = (req, res) => {
         } else {
           res.status(403)
           res.json({"auth": false, "message": "E-mail ou senha incorretos"})
+          console.log(err)
         }
       })
 
