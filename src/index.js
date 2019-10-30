@@ -33,7 +33,6 @@ const categoriaRoute = require('./routes/categoriaRoute')
 const apiRoute = require('./routes/apiRoute')
 
 app.use('/api/v1/tarefas', tarefaRoute)
-app.use('/api/v1/tarefas/categoria', categoriaRoute)
 app.use('/api/v1', apiRoute)
 app.use('/api/v1/categorias', categoriaRoute)
 
