@@ -58,5 +58,7 @@ exports.deletar = [
       
 
 exports.listarPorDescricao = [
-    check('f').exists().withMessage('A descrição não pode estar em branco!').isLength({min:3}).withMessage('Por favor, informe mais de 2 caracteres!')
+    check('f')
+        .exists().withMessage('A descrição não pode estar em branco!')
+        .isLength({min:3}).withMessage('Por favor, informe mais de 2 caracteres!')
 ]

@@ -219,37 +219,38 @@ exports.listarPorDt = (req, res) => {
 
 
 exports.listarPorDescricao = (req, res) => {
+  
   const erros = validationResult(req)
     if(!erros.isEmpty()){
         return res.status(422).json({"erros": erros.array()})
-    } else {
-  const perPage = 10
-  let descricao = req.query.f
-  console.log(req.query)
-  let page = parseInt(req.query.page)
-  console.log(descricao)
-  console.log(page)
+    } else{
+      const perPage = 10
+      let descricao = req.query.f
+      console.log(req.query)
+      let page = parseInt(req.query.page)
+      console.log(descricao)
+      console.log(page)
 
-  if(isNaN(page)){
-    page=0
+      if(isNaN(page)){
+        page=0
+      }
+      descricao = '%'+descricao+'%'
+      const query = "select * from tarefas where descricao like ? limit ?,?"
+
+      conexao.query(query, [descricao,page,perPage], (err, rows)=>{
+        if (err){
+          res.status(500)
+          res.json({"message": "Internal Server "})
+          console.log(err)
+        } else if (rows.length > 0){
+          res.status(200)
+          res.json(rows)
+        } else {
+          res.status(404)
+          res.json({"message": "Nenhuma descrição encontrada"})
+        }
+      })
   }
-  descricao = '%'+descricao+'%'
-  const query = "select * from tarefas where descricao like ? limit ?,?"
-
-  conexao.query(query, [descricao,page,perPage], (err, rows)=>{
-    if (err){
-      res.status(500)
-      res.json({"message": "Internal Server "})
-      console.log(err)
-    } else if (rows.length > 0){
-      res.status(200)
-      res.json(rows)
-    } else {
-      res.status(404)
-      res.json({"message": "Nenhuma descrição encontrada"})
-    }
-  })
-}
 }
 
 exports.listarPorDatas = (req, res) => {
