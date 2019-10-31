@@ -5,35 +5,53 @@ create table usuarios(
   id      int             not null  auto_increment,
   email   varchar(200)    not null,  
   senha   varchar(200)    not null,
+  deletado char,
+
   primary key (id)
 );
+
+
 insert into usuarios (id, email, senha) values
   (1, 'suporte@gmail.com', '$2b$10$6ZbT4sKq5St91o5bgpJpReNDHci.a3lQ18ObJAE97ljgApqFLyvNW');
 
 create table categorias(
-  id        int           not null  auto_increment,
-  descricao varchar(200)  not null,
-  cor     varchar(9),
-  primary key (id)
+  id          int           not null  auto_increment,
+  descricao   varchar(200)  not null,
+  cor         varchar(9),
+  id_user     int           not null,
+  deletado char,
+  primary key (id),
+
+  foreign key(id_user) references usuarios(id)
 );
-insert into categorias (id, descricao, cor) values
-  (1, "Pessoal", "#27AE60"),
-  (2, "Escola", "#2F80ED"),
-  (3, "Trabalho de Conclusão", "#F2C94C"),
-  (4, "Trabalho", "#EB5757");
+
+
+insert into categorias (id, descricao, cor, id_user) values
+  (1, "Pessoal", "#27AE60", 1),
+  (2, "Escola", "#2F80ED", 1),
+  (3, "Trabalho de Conclusão", "#F2C94C", 1),
+  (4, "Trabalho", "#EB5757", 1);
 
 create table tarefas(
+
   id            int           not null  auto_increment,
   descricao     varchar(255)  not null,
   data          datetime      not null  default         now(),
   realizado     boolean       not null  default         false,
   categoria_id  int           not null,
+  prioridade    int           not null default 1,
+  id_user       int           not null,
+  deletado      char,
+  id_tarefa     int,
+
   primary key (id),
   foreign key (categoria_id) references categorias (id)
+  foreign key (id_user) references usuarios(id)
+  foreign key (id_tarefa) references tarefas(id)
 );
 insert into tarefas (descricao, data, realizado, categoria_id) values 
 
-  ('Pagar conta de energia', '2018-10-03 10:00:00', false, 1),
+  ('Pagar conta de energia', '2018-10-03 10:00:00', false, 1,),
   ('Inciar o trabalho de ED', '2018-10-03 12:00:00', false, 2),
   ('Pagar conta de energia', '2018-10-03 10:0', false, 1),
   ('Inciar o trabalho', '2018-10-03 12:00:00', false, 2),
