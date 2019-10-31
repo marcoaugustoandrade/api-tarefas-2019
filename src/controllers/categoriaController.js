@@ -41,7 +41,7 @@ exports.alterar = (req, res) => {
     categoria.push(req.body.cor)
     categoria.push(req.params.id)
 
-    const query = "update categorias set descricao = ?, cor = ? = ? where id = ?"
+    const query = "update categorias set descricao = ?, cor = ?  where id = ?"
 
     conexao.query(query, categoria, (err, rows) => {
         if (err){
@@ -86,8 +86,6 @@ exports.deletar = (req, res) => {
 }
 }
 
-
-
 exports.listarPorDesc = (req, res) => {
   const erros = validationResult(req)
 
@@ -114,8 +112,6 @@ exports.listarPorDesc = (req, res) => {
     }
   })
 }}
-
-
 
 exports.listarPorId = (req, res) => {
 
