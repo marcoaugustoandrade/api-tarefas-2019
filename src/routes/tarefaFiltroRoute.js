@@ -2,6 +2,8 @@ const express = require('express')
 const route = express.Router()
 const tarefaController = require('../controllers/tarefaController')
 const tarefaValidation = require('../util/tarefaValidation')
+const categoriaController = require('../controllers/categoriaController')
+const categoriaValidation = require('../util/categoriaValidation')
 const apiController = require('../controllers/apiController')
 
 route.get('/descri/?'       ,   apiController.verificar, tarefaValidation.listarPorDescricao, tarefaController.listarPorDescricao)

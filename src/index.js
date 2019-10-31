@@ -31,12 +31,16 @@ app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 const tarefaRoute = require('./routes/tarefaRoute')
 const tarefaFiltroRoute = require('./routes/tarefaFiltroRoute')
 const categoriaRoute = require('./routes/categoriaRoute')
+const categoriaFiltroRoute = require('./routes/categoriaFiltroRoute')
 const apiRoute = require('./routes/apiRoute')
+
+app.use('/api/v1', apiRoute)
 
 app.use('/api/v1/tarefas', tarefaRoute)
 app.use('/api/v1/tarefas/filtro', tarefaFiltroRoute)
-app.use('/api/v1', apiRoute)
+
 app.use('/api/v1/categorias', categoriaRoute)
+app.use('/api/v1/categorias/filtro', categoriaFiltroRoute)
 
 const port = process.env.PORT
 
