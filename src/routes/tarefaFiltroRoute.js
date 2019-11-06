@@ -13,5 +13,7 @@ route.get('/pagination/?'   ,   apiController.verificar, tarefaController.listar
 route.get('/categ/:id',   apiController.verificar, categoriaValidation.listarPorCategoriaId,   categoriaController.listarPorCategoriaId)
 route.get('/resolvidos_pagination/?'   ,   apiController.verificar, tarefaController.listarResolvido_paginado)
 route.get('/prioridade_pagination/?'   ,   apiController.verificar, tarefaController.listarPorPrioridade_paginado)
-
+route.get('/deletados_pagination/?'   ,   apiController.verificar, tarefaController.listarPorDeletados)
+route.get('/categoria_pagination/?'   ,   apiController.verificar, tarefaController.listarPorCategoria)
+route.get('/vencidos_pagination/?'   ,   apiController.verificar, tarefaController.listarVencidos)
 module.exports = route

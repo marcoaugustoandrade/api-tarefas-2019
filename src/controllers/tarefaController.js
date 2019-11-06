@@ -78,8 +78,90 @@ exports.listarPorPrioridade_paginado = (req, res) => {
      })
    }
  }
+ 
+ exports.listarPorDeletados = (req, res) => {
+  /*  http://localhost:3009/api/v1/tarefas/filtro/deletados_pagination/?page=1*/
+    const page = req.query.page
+  
+    const query = " select * from tarefas where deletado  = 1;"
+    
+  
+    if (parseInt(page) < 1  || isNaN(parseInt(page) && isFinite(page))) {
+      res.status(400)
+      res.json({ "message": "Página inválida!" })
+    } else {
+      conexao.query(query, [(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+        if (err) {
+          res.status(500)
+          res.json({ "message": "Internal Server Error" })
+          console.log(err)
+        } else if (rows.length > 0) {
+          res.status(200)
+          res.json(rows)
+        } else {
+          res.status(404)
+          res.json({ "message": "Nenhuma tarefa encontrada" })
+        }
+      })
+    }
+  }
 
+  exports.listarPorCategoria = (req, res) => {
+    /* http://localhost:3009/api/v1/tarefas/filtro/categoria_pagination/?page=2&categoria_id=1*/
+      const page = req.query.page
+      const categoria_id = req.query.categoria_id
+    
+      const query = " select * from tarefas where categoria_id = ?;"
+      
+    
+      if (parseInt(page) < 1  || isNaN(parseInt(page) && isFinite(page))) {
+        res.status(400)
+        res.json({ "message": "Página inválida!" })
+      } else {
+        conexao.query(query, [categoria_id,(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+          if (err) {
+            res.status(500)
+            res.json({ "message": "Internal Server Error" })
+            console.log(err)
+          } else if (rows.length > 0) {
+            res.status(200)
+            res.json(rows)
+          } else {
+            res.status(404)
+            res.json({ "message": "Nenhuma tarefa encontrada" })
+          }
+        })
+      }
+    }
 
+    /* */
+    exports.listarVencidos = (req, res) => {
+      /* http://localhost:3009/api/v1/tarefas/filtro/categoria_pagination/?page=2&categoria_id=1*/
+        const page = req.query.page
+       
+      
+        const query = " select * from tarefas where data < now() limit ?, ?; "
+        
+      
+        if (parseInt(page) < 1  || isNaN(parseInt(page) && isFinite(page))) {
+          res.status(400)
+          res.json({ "message": "Página inválida!" })
+        } else {
+          conexao.query(query, [(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+            if (err) {
+              res.status(500)
+              res.json({ "message": "Internal Server Error" })
+              console.log(err)
+            } else if (rows.length > 0) {
+              res.status(200)
+              res.json(rows)
+            } else {
+              res.status(404)
+              res.json({ "message": "Nenhuma tarefa encontrada" })
+            }
+          })
+        }
+      }
 exports.listar = (req, res) => {
 
     const query = "select * from tarefas"
