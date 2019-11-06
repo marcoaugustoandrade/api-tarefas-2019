@@ -11,6 +11,6 @@ route.get('/datas/?'        ,   apiController.verificar, tarefaValidation.listar
 route.get('/data/?'         ,   apiController.verificar, tarefaValidation.listarPorDt       , tarefaController.listarPorDt)
 route.get('/pagination/?'   ,   apiController.verificar, tarefaController.listarperpage)
 route.get('/categ/:id',   apiController.verificar, categoriaValidation.listarPorCategoriaId,   categoriaController.listarPorCategoriaId)
-
+route.get('/resolvidos_pagination/?'   ,   apiController.verificar, tarefaController.listarResolvido_paginado)
 
 module.exports = route
