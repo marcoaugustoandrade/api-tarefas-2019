@@ -52,6 +52,33 @@ exports.listarResolvido_paginado = (req, res) => {
   }
 }
 
+exports.listarPorPrioridade_paginado = (req, res) => {
+ /*  http://localhost:3009/api/v1/tarefas/filtro/prioridade_pagination/?page=2&prioridade=1 */
+   const page = req.query.page
+   const prioridade = req.query.prioridade;
+   const query = " select * from tarefas where prioridade = ? LIMIT ?,?;"
+   
+ 
+   if (parseInt(page) < 1 ) {
+     res.status(400)
+     res.json({ "message": "Página inválida!" })
+   } else {
+     conexao.query(query, [prioridade,(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+       if (err) {
+         res.status(500)
+         res.json({ "message": "Internal Server Error" })
+         console.log(err)
+       } else if (rows.length > 0) {
+         res.status(200)
+         res.json(rows)
+       } else {
+         res.status(404)
+         res.json({ "message": "Nenhuma tarefa encontrada" })
+       }
+     })
+   }
+ }
+
 
 exports.listar = (req, res) => {
 
