@@ -26,8 +26,142 @@ exports.listarperpage = (req, res) => {
   }
 }
 
+exports.listarResolvido_paginado = (req, res) => {
+ /*  rota http://localhost:3009/api/v1/tarefas/filtro/resolvidos_pagination/?page=1 */
+  const page = req.query.page
+  const query = " select *  from tarefas where realizado = 1 LIMIT ?,?;"
+  
 
+  if (parseInt(page) < 1 ) {
+    res.status(400)
+    res.json({ "message": "Página inválida!" })
+  } else {
+    conexao.query(query, [(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+      if (err) {
+        res.status(500)
+        res.json({ "message": "Internal Server Error" })
+        console.log(err)
+      } else if (rows.length > 0) {
+        res.status(200)
+        res.json(rows)
+      } else {
+        res.status(404)
+        res.json({ "message": "Nenhuma tarefa encontrada" })
+      }
+    })
+  }
+}
 
+exports.listarPorPrioridade_paginado = (req, res) => {
+ /*  http://localhost:3009/api/v1/tarefas/filtro/prioridade_pagination/?page=2&prioridade=1 */
+   const page = req.query.page
+   const prioridade = req.query.prioridade;
+   const query = " select * from tarefas where prioridade = ? LIMIT ?,?;"
+   
+ 
+   if (parseInt(page) < 1 ) {
+     res.status(400)
+     res.json({ "message": "Página inválida!" })
+   } else {
+     conexao.query(query, [prioridade,(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+       if (err) {
+         res.status(500)
+         res.json({ "message": "Internal Server Error" })
+         console.log(err)
+       } else if (rows.length > 0) {
+         res.status(200)
+         res.json(rows)
+       } else {
+         res.status(404)
+         res.json({ "message": "Nenhuma tarefa encontrada" })
+       }
+     })
+   }
+ }
+ 
+ exports.listarPorDeletados = (req, res) => {
+  /*  http://localhost:3009/api/v1/tarefas/filtro/deletados_pagination/?page=1*/
+    const page = req.query.page
+  
+    const query = " select * from tarefas where deletado  = 1;"
+    
+  
+    if (parseInt(page) < 1  || isNaN(parseInt(page) && isFinite(page))) {
+      res.status(400)
+      res.json({ "message": "Página inválida!" })
+    } else {
+      conexao.query(query, [(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+        if (err) {
+          res.status(500)
+          res.json({ "message": "Internal Server Error" })
+          console.log(err)
+        } else if (rows.length > 0) {
+          res.status(200)
+          res.json(rows)
+        } else {
+          res.status(404)
+          res.json({ "message": "Nenhuma tarefa encontrada" })
+        }
+      })
+    }
+  }
+
+  exports.listarPorCategoria = (req, res) => {
+    /* http://localhost:3009/api/v1/tarefas/filtro/categoria_pagination/?page=2&categoria_id=1*/
+      const page = req.query.page
+      const categoria_id = req.query.categoria_id
+    
+      const query = " select * from tarefas where categoria_id = ?;"
+      
+    
+      if (parseInt(page) < 1  || isNaN(parseInt(page) && isFinite(page))) {
+        res.status(400)
+        res.json({ "message": "Página inválida!" })
+      } else {
+        conexao.query(query, [categoria_id,(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+          if (err) {
+            res.status(500)
+            res.json({ "message": "Internal Server Error" })
+            console.log(err)
+          } else if (rows.length > 0) {
+            res.status(200)
+            res.json(rows)
+          } else {
+            res.status(404)
+            res.json({ "message": "Nenhuma tarefa encontrada" })
+          }
+        })
+      }
+    }
+
+    /* */
+    exports.listarVencidos = (req, res) => {
+      /* http://localhost:3009/api/v1/tarefas/filtro/categoria_pagination/?page=2&categoria_id=1*/
+        const page = req.query.page
+       
+      
+        const query = " select * from tarefas where data < now() limit ?, ?; "
+        
+      
+        if (parseInt(page) < 1  || isNaN(parseInt(page) && isFinite(page))) {
+          res.status(400)
+          res.json({ "message": "Página inválida!" })
+        } else {
+          conexao.query(query, [(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+            if (err) {
+              res.status(500)
+              res.json({ "message": "Internal Server Error" })
+              console.log(err)
+            } else if (rows.length > 0) {
+              res.status(200)
+              res.json(rows)
+            } else {
+              res.status(404)
+              res.json({ "message": "Nenhuma tarefa encontrada" })
+            }
+          })
+        }
+      }
 exports.listar = (req, res) => {
 
     const query = "select * from tarefas"
@@ -79,7 +213,21 @@ exports.listarPorId = (req, res) => {
     }
 }
 
+
 exports.inserir = (req, res) => {
+
+  /* 
+  ASSIM DEVE ESTAR O BODY
+  {
+      
+    "descricao": "ESCREVA A DESCRIÇÃO",
+    "data": "2018-10-03T14:00:00.000Z",
+    "categoria_id": 1,
+    "prioridade": 1,
+    "id_user": 1
+ 
+} */
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() })
@@ -95,10 +243,11 @@ exports.inserir = (req, res) => {
         const tarefa = []
         tarefa.push(req.body.descricao)
         tarefa.push(req.body.data)
-        tarefa.push(req.body.realizado)
         tarefa.push(req.body.categoria_id)
+        tarefa.push(req.body.prioridade)
+        tarefa.push(req.body.id_user)
 
-        const query = "insert into tarefas (descricao, data, realizado, categoria_id) values (?,?,?,?)"
+        const query = "insert into tarefas (descricao, data, categoria_id, prioridade, id_user) values (?,?,?,?,?)"
 
         conexao.query(query, tarefa, (err, rows) =>{
 
@@ -119,6 +268,16 @@ exports.inserir = (req, res) => {
 
 exports.alterar = (req, res) => {
     
+ /*  {
+    "descricao": "Revisar TCC",
+       "data": "2018-10-03",
+       "realizado": 0,
+       "categoria_id": 1,
+       "prioridade": 1,
+       "id_user": 1,
+       "deletado": 0
+} */
+
     const erros = validationResult(req)
     
     if(!erros.isEmpty()){
@@ -132,9 +291,12 @@ exports.alterar = (req, res) => {
         tarefa.push(req.body.data)
         tarefa.push(req.body.realizado)
         tarefa.push(req.body.categoria_id)
+        tarefa.push(req.body.prioridade)
+        tarefa.push(req.body.id_user)
+        tarefa.push(req.body.deletado)
         tarefa.push(req.params.id)
-    
-        const query = "update tarefas set descricao = ?, data = ?, realizado = ?, categoria_id = ? where id = ? "
+     
+        const query = "update tarefas set descricao = ?, data = ?, realizado = ?, categoria_id = ? ,prioridade = ?, id_user = ?, deletado = ?  where id = ?; "
     
         conexao.query(query, tarefa, (err, rows) =>{
     
