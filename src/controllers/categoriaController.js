@@ -1,6 +1,25 @@
 const conexao = require('../config/conexao')
 const { validationResult } = require('express-validator')
 
+exports.listar = (req, res) => {
+
+  const query = "select * from categorias"
+
+  conexao.query(query , (err, rows) =>{
+      if(err){
+          res.status(500)
+          res.json({"message" : "Internal Server Error"})
+          console.log(err)
+      }else if(rows.length > 0){
+          res.status(200)
+          res.json(rows)
+      }else{
+          res.status(404)
+          res.json({"message": "Nenhuma Tarefa Encontrada"})
+      }
+  })
+}
+
 // Listar pela categoria 
 exports.listarPorCategoriaId = (req, res) =>{
     const erros = validationResult(req)
@@ -160,7 +179,8 @@ exports.inserir = (req, res) =>{
              res.status(201).json({"message":"Categoria inserida com sucesso","id":rows.insertId})
          }
      })
- }
-
-
+ 
+  }
 }
+
+
