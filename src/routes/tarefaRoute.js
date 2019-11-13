@@ -7,10 +7,10 @@ const categoriaController =  require('../controllers/categoriaController')
 const apiController = require('../controllers/apiController')
 
 
-route.get('/'           ,   apiController.verificar, tarefaController.listar)
-route.post('/'          ,   apiController.verificar, tarefaValidation.inserir       ,  tarefaController.inserir)
-route.put('/:id'        ,   apiController.verificar, tarefaValidation.alterar       ,  tarefaController.alterar)
-route.delete('/:id'     ,   apiController.verificar, tarefaValidation.deletar       ,   tarefaController.deletar)
-route.get('/:id'        ,   apiController.verificar, tarefaValidation.listarPorId   ,   tarefaController.listarPorId)
+route.get('/'           , tarefaController.listar)
+route.post('/'          , tarefaValidation.inserir       ,  tarefaController.inserir)
+route.put('/:id'        , tarefaValidation.alterar       ,  tarefaController.alterar)
+route.delete('/:id'     , tarefaValidation.deletar       ,   tarefaController.deletar)
+route.get('/:id'       ,  tarefaValidation.listarPorId   ,   tarefaController.listarPorId)
 
 module.exports = route
