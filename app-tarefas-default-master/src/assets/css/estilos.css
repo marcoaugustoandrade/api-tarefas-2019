@@ -1,0 +1,44 @@
+.task-background {
+  background-color: #F4F4F4;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.font-text {
+  font-size: 12px;
+}
+
+.link-category {
+  font-size: 14px;
+  color: #4F4F4F;
+}
+
+.link-category:hover {
+  text-decoration: none;
+}
+
+.link-task {
+  font-size: 16px;
+  color: #4F4F4F;
+}
+
+.link-task:hover {
+  text-decoration: none;
+}
+.lixeira{
+  margin-top: 500px;
+}
+
+.lista__itens{
+  list-style: none;
+}
+
+.separar{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+ 
+}
+
+#more {display: none;}
+

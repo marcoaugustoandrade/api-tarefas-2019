@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarefas</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="assets/css/estilos.css">
+  <!-- Importações do Bootstrap -->
+  <link rel="stylesheet" href="assets/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+  <!--ler mais-->
+
+
+<body>
+
+  <header class="container-fluid" style="background-color: #2F80ED">
+    <div class="d-flex justify-content-between pt-2 pb-2">
+      <div class="align-self-center">
+        <form class="form-inline">
+          <div class="text-white align-self-center mr-3" style="font-size: 24px">
+            Tarefa
+          </div>
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control mr-2" placeholder="Buscar"
+              style="background-color: #4E90E9; color: #FFF;">
+            <span class="glyphicon glyphicon-search form-control-feedback" style="color: white"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="align-self-center d-flex">
+        <form class="form-inline">
+
+          <button class="btn btn-success mr-3" id="btn-novo" onclick="tarefaController.carregarFormulario(this)">
+            <img src="assets/images/add-white.svg" alt="Nova tarefa"> Nova</button>
+        </form>
+        <!--Imagens da notificação-->
+        <a href="#" class="d-flex justify-content-between  pt-2 pb-2">
+          <img src="assets/images/sino.svg" alt="Sino das notificações">
+        </a>
+        <a href="#" class="d-flex justify-content-between  pt-2 pb-2">
+          <img src="assets/images/sino-com-item.svg" alt="Sino das notificações com item">
+        </a>
+      </div>
+      
+     </div>
+  </header>
+
+  <main class="container-fluid d-flex">
+    <nav class="separar">
+      <div>
+      <div class="mt-3 font-weight-bold d-flex justify-content-between">
+        <span>Categorias:</span>
+        <form class="form-inline">
+          <button class="btn" id="btn-categoria" onclick="categoriaController.carregarFormularioCategoria(this)">
+            <img src="assets/images/add-black.svg" alt="Nova categoria">
+          </button>
+        </form>
+      </div>
+      <ul class="list-unstyled mt-3" id="lista-categorias">
+        <li>
+          <a href="#" class="link-category">
+            <img src="assets/images/yellow.svg" alt="" class="mr-1"> Escola
+          </a>
+        </li>
+        <li>
+          <a href="#" class="link-category">
+            <img src="assets/images/green.svg" alt="" class="mr-1"> Trabalho de conclusão
+          </a>
+        </li>
+        <li>
+          <a href="#" class="link-category">
+            <img src="assets/images/blue.svg" alt="" class="mr-1"> Trabalho
+          </a>
+        </li>
+        <li>
+          <a href="#" class="link-category">
+            <img src="assets/images/red.svg" alt="" class="mr-1"> Pessoal
+          </a>
+        </li>
+        <li>
+          <div class="panel-group">
+            <div class="">
+              
+              <div id="collapse1" class="panel-collapse collapse">
+                <ul class="list-group lista__itens">
+                  <!--aqui em baixo recebera da api as outras categorias-->
+                  <li><a href="#" class="link-category">
+                      <img src="assets/images/red.svg" alt="" class="mr-1"> Pessoal
+                    </a></li>
+                  <li><a href="#" class="link-category">
+                      <img src="assets/images/red.svg" alt="" class="mr-1"> Pessoal
+                    </a></li>
+                  <li><a href="#" class="link-category">
+                      <img src="assets/images/red.svg" alt="" class="mr-1"> Pessoal
+                  </a></li>
+                </ul>
+
+              </div>
+              <div class="">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" href="#collapse1">Mais...</a>
+                  <span data-toggle="collapse" href="#collapse1" class="pull-right clickable"><i
+                      class="glyphicon glyphicon-chevron-down"></i></span>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <!--Modal de categorias-->
+      <div class="modal" id="modalCategoria">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title font-weight-bold ">Inserir nova categoria</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="form">
+                <div class="form-group">
+                  <label for="descricao">Descrição:</label>
+                  <input type="text" id="descricao" class="form-control" value="Estudar">
+                </div>
+                <div class="form-group">
+                  <label for="cor">Cor:</label>
+                  <input type="color" id="colorselector"> 
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button type="button" class="btn btn-primary" id="btn-salvar"
+                onclick="">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Niveis de prioridades implementação by Ikaro X-Bacon -->
+      <div class="mt-3 font-weight-bold">Prioridade</div>
+      <div>
+
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a href="#" class="nav-link active">Alta</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link active">Média</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link active">Baixa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div >
+      <div class=" flex-column">
+          <button type="button" class="btn btn-outline-danger" id="btn-lixeira"> <img src="assets/images/lixeira.svg" alt="Lixeira">   Lixeira</button>
+        </div>
+      </div>
+    </nav>
+    
+
+
+
+    <section class="flex-fill" id="grid">
+
+      <!-- Mensagem -->
+      <div class="d-none" id="mensagem"></div>
+
+
+    </section>
+     <!--Modal de tarefas -->
+    <div class="modal" id="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title font-weight-bold">Inserir nova tarefa</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="form">
+              <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" class="form-control" value="Fazer algo">
+              </div>
+              <div class="form-group">
+                <label for="data">Data:</label>
+                <input type="date" id="data" class="form-control" value="2019-10-10">
+              </div>
+              <div class="form-group">
+                <label for="categoria">Categoria:</label>
+                <select id="categoria" class="form-control">
+                  <option value="1">Escola</option>
+                  <option value="2">Trabalho de conclusão</option>
+                  <option value="3">Trabalho</option>
+                  <option value="4">Escola</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="categoria">Prioridade:</label>
+                <select id="categoria" class="form-control">
+                  <option value="1">Baixa</option>
+                  <option value="2">Média</option>
+                  <option value="3">Alta</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary" id="btn-salvar"
+              onclick="tarefaController.inserir()">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+
+
+  <!-- Importações -->
+  <script src="assets/js/util/Mensagens.js"></script>
+ 
+  <script src="assets/js/services/Service.js"></script>
+  <script src="assets/js/models/Tarefa.js"></script>
+  <script src="assets/js/models/Tarefas.js"></script>
+  <script src="assets/js/services/TarefaService.js"></script>
+  <script src="assets/js/controllers/TarefaController.js"></script>
+  <script src="assets/js/views/TarefaView.js"></script>
+
+  
+
+  <script src="assets/js/models/Categoria.js"></script>
+  <script src="assets/js/models/Categorias.js"></script> 
+  <script src="assets/js/services/CategoriaService.js"></script>
+  <script src="assets/js/views/CategoriaView.js"></script>  
+  <script src="assets/js/controllers/CategoriaController.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <!-- Importações do Bootstrap -->
+  <script src="assets/js/bootstrap/jquery-3.3.1.slim.min.js"></script>
+  <script src="assets/js/bootstrap/popper.min.js"></script>
+  <script src="assets/js/bootstrap/bootstrap.min.js"></script>
+  <script src="bootstrap-colorselector.js"></script>
+</body>
+
+</html>
