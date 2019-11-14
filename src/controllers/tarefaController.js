@@ -165,20 +165,26 @@ exports.listarPorPrioridade_paginado = (req, res) => {
 exports.listar = (req, res) => {
 
     const query = "select tarefas.descricao, tarefas.data, tarefas.realizado,categorias.descricao as 'categoria_desc',categorias.cor from tarefas,categorias where tarefas.categoria_id=categorias.id"
-
-    conexao.query(query , (err, rows) =>{
-        if(err){
-            res.status(500)
-            res.json({"message" : "Internal Server Error"})
-            console.log(err)
-        }else if(rows.length > 0){
-            res.status(200)
-            res.json(rows)
-        }else{
-            res.status(404)
-            res.json({"message": "Nenhuma Tarefa Encontrada"})
+    const page = req.query.page
+  
+    if (parseInt(page) < 1 || isNaN(parseInt(page) && isFinite(page))) {
+      res.status(400)
+      res.json({ "message": "Página inválida!" })
+    } else {
+      conexao.query(query, [(parseInt(page) - 1) * 10, (parseInt(page) - 1) * 10 + 10], (err, rows) => {
+        if (err) {
+          res.status(500)
+          res.json({ "message": "Internal Server Error" })
+          console.log(err)
+        } else if (rows.length > 0) {
+          res.status(200)
+          res.json(rows)
+        } else {
+          res.status(404)
+          res.json({ "message": "Nenhuma tarefa encontrada" })
         }
-    })
+      })
+    }
 }
 
 
